@@ -23,12 +23,14 @@
 		@*  Build the form, adding an input for each field
             Note the label parameter
         *@
+        @* Hidden field for product id (used for updating) *@
+        @inputText(addProductForm("id"), '_label -> "", 'hidden -> "hidden")
+
 		@inputText(addProductForm("name"), '_label -> "Name",'class -> "form-control")
-		@inputText(addProductForm("description"), '_label -> "Description",'class -> "form-control")
-
+        @inputText(addProductForm("description"), '_label -> "Description",'class -> "form-control")
+        
         @* Select list categories *@
-        @* Category.options provides a hashmap of value, name pairs *@
-
+        @* Category.options provides a hashmap of value, name pairs (see CAtegory class) *@
         @select(
             addProductForm("category.id"),
             options(Category.options),
@@ -43,10 +45,10 @@
 
 	<!-- Add a submit button -->
   <div class="actions">
-      <input type="submit" value="Add Product" class="btn btn-primary">
-			<a href="@routes.HomeController.products(0)">
-				<button class="btn btn-warning">Cancel</button>
-			</a>
+      <input type="submit" value="Add/ Update Product" class="btn btn-primary">
+	  <a href="@routes.HomeController.products(0)">
+			<button class="btn btn-warning">Cancel</button>
+	  </a>
   </div>
 	} <!-- End Form definition -->
 

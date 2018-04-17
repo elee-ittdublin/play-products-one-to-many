@@ -54,7 +54,7 @@ public class HomeController extends Controller {
         // Calls the find.all() method of Product - from the Model superclass
         // https://www.playframework.com/documentation/2.6.x/JavaEbean#Using-Model-superclass
         List<Product> productList = new ArrayList<Product>();
-        List<Category> categoryList = Category.find.all();
+        List<Category> categoryList = Category.find.query().where().orderBy("name asc").findList();
 
         if (cat == 0) {
             productList = Product.find.all();
@@ -69,7 +69,7 @@ public class HomeController extends Controller {
         return ok(products.render(productList, categoryList));
     }
 
-        // Load the add product view
+    // Load the add product view
     // Display an empty form in the view
     @Transactional
     public Result addProduct() {   
@@ -92,13 +92,52 @@ public class HomeController extends Controller {
             return badRequest(addProduct.render(newProductForm));
         }
         
-        // Save the Product using Ebean (remember Product extends Model)
-        newProductForm.get().save();
+        // Save if new (no id) otherwise update product
+        Product p = newProductForm.get();
+        if (p.getId() != null) {
+            p.update();
+        }
+        else {
+            p.save();
+        }
 
         // Set a flash message
-        flash("success", "Product " + newProductForm.get().getName() + " has been created");
+        flash("success", "Product " + newProductForm.get().getName() + " has been created or updated");
         
         // Redirect to the admin home
+        return redirect(controllers.routes.HomeController.products(0));
+    }
+
+        // Load the add product view
+    // Display an empty form in the view
+    @Transactional
+    public Result updateProduct(Long id) {
+
+        Product editProduct = new Product();
+        // Retrieve the product by id
+        // Create a form based on the Product class
+
+        // Catch exception if product not found
+        try {
+            editProduct = Product.find.byId(id);
+        } catch (Exception e) {
+            return badRequest("error");
+        }
+        
+        // Instantiate a form object based on the Product class
+        Form<Product> updateProductForm = formFactory.form(Product.class).fill(editProduct);
+        // Render the Add Product View, passing the form object
+        return ok(addProduct.render(updateProductForm));
+    }
+
+    // Delete Product
+    @Transactional
+    public Result deleteProduct(Long id) {
+        // Call delete method
+        Product.find.ref(id).delete();
+        // Add message to flash session 
+        flash("success", "Product has been deleted");
+        // Redirect home
         return redirect(controllers.routes.HomeController.products(0));
     }
 

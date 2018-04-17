@@ -1,4 +1,4 @@
-name := """play-java-app"""
+name := """play-tutorial-one-to-many"""
 
 version := "1.0-SNAPSHOT"
 

@@ -1,5 +1,5 @@
-# A Play Framework Java Starter Application
+# Play Framework Product Catalogue
 
 
-## Uses a Bootstrap 4 template
-## Content Security policy defaults have been configured
+## Add and edit products
+## 1 to many database (Category 1 -- m Product)

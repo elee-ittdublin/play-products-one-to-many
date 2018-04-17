@@ -10,13 +10,16 @@ GET     /about                      controllers.HomeController.about
 GET     /products                   controllers.HomeController.products(cat:Long ?=0L)
 
 # Display the add product page
-GET			/addProduct									controllers.HomeController.addProduct()
+GET		/addProduct					controllers.HomeController.addProduct()
 
 # Process the add product form after it is submitted using the POST method 
-POST		/addProductSubmit						controllers.HomeController.addProductSubmit()
+POST	/addProductSubmit			controllers.HomeController.addProductSubmit()
+
+# Update product (by id)
+GET		/updateProduct/:id			controllers.HomeController.updateProduct(id:Long)
 
 # Delete a product by an id passed as a parameter
-#GET     /delProduct/:id              controllers.HomeController.deleteProduct(id:Long)
+GET     /delProduct/:id             controllers.HomeController.deleteProduct(id:Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
